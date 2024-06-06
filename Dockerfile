@@ -1,5 +1,5 @@
 # ---- Base Node ----
-FROM node:alpine AS base
+FROM node:latest AS base
 WORKDIR /app
 COPY package*.json ./
 
@@ -14,7 +14,7 @@ COPY . ./
 RUN npm run build
 
 # --- Release with Alpine ----
-FROM node:alpine AS release
+FROM node:latest AS release
 WORKDIR /app
 COPY --from=dependencies /app/package*.json ./
 RUN npm install --only=production
