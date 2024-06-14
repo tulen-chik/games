@@ -2,11 +2,13 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import styles from "./page.module.css"
+import WinningScreen from "@/components/WinningScreen";
 
 const Page = () => {
     const [board, setBoard] = useState(Array(3).fill(null).map(() => Array(3).fill(null)));
     const [currentPlayer, setCurrentPlayer] = useState('X');
     const [winner, setWinner] = useState("")
+    const [win, setWin] = useState(false)
 
     useEffect(() => {
         if (currentPlayer === 'O') {
@@ -32,10 +34,14 @@ const Page = () => {
             setCurrentPlayer("X")
             placeMark(bestMove.cell[0], bestMove.cell[1]);
         } catch {
-            if (checkWin() === "X")
+            if (checkWin() === "X") {
                 setWinner("первый игрок победил")
-            else
+                setWin(true)
+            }
+            else {
                 setWinner("второй игрок победил")
+                setWin(true)
+            }
             setBoard(Array(3).fill(null).map(() => Array(3).fill(null)))
         }
 
@@ -130,7 +136,7 @@ const Page = () => {
                         </div>)
                     })
                 }
-                {winner}
+                <WinningScreen setIsOpen={setWin} isOpen={win}>{winner}</WinningScreen>
             </div>
         </div>
     );
